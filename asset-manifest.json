@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/axul_front/static/css/main.1bf785ce.chunk.css",
+    "main.js": "/axul_front/static/js/main.af4a17c4.chunk.js",
+    "main.js.map": "/axul_front/static/js/main.af4a17c4.chunk.js.map",
+    "runtime-main.js": "/axul_front/static/js/runtime-main.2230cef9.js",
+    "runtime-main.js.map": "/axul_front/static/js/runtime-main.2230cef9.js.map",
+    "static/js/2.84d7f5c8.chunk.js": "/axul_front/static/js/2.84d7f5c8.chunk.js",
+    "static/js/2.84d7f5c8.chunk.js.map": "/axul_front/static/js/2.84d7f5c8.chunk.js.map",
+    "static/js/3.785b6663.chunk.js": "/axul_front/static/js/3.785b6663.chunk.js",
+    "static/js/3.785b6663.chunk.js.map": "/axul_front/static/js/3.785b6663.chunk.js.map",
+    "index.html": "/axul_front/index.html",
+    "static/css/main.1bf785ce.chunk.css.map": "/axul_front/static/css/main.1bf785ce.chunk.css.map",
+    "static/js/2.84d7f5c8.chunk.js.LICENSE.txt": "/axul_front/static/js/2.84d7f5c8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2230cef9.js",
+    "static/js/2.84d7f5c8.chunk.js",
+    "static/css/main.1bf785ce.chunk.css",
+    "static/js/main.af4a17c4.chunk.js"
+  ]
+}
