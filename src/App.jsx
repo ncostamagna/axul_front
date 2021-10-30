@@ -1,9 +1,9 @@
 import React from 'react'
-import Login from './components/login/Login'
-import Router from './components/router/Router'
+import Login from './pages/Login'
+import Router from './router/Router'
 
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux';
 
 const App = () => {
     let login = false;
@@ -12,7 +12,7 @@ const App = () => {
         <Provider store={store}>
             <div className='container mx-auto'>
                 {
-                    login == true?<Router />:<Login />
+                    login === true?<Router />:<Login />
                 }
             </div>
         </Provider>

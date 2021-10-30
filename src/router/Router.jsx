@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Contact from '../contact/Contact.jsx'
-import Home from '../home/Home.jsx'
+import Contact from '../pages/Contact'
+import Home from '../pages/Home'
 
 function Router() {
   return (
