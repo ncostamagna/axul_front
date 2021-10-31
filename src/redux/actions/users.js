@@ -1,35 +1,25 @@
 import {
     USER_LOGIN
 } from '../types';
+import {Users} from '../../util/api'
 
-export function loginAction(producto) {
+
+
+export function loginAction(username, password) {
     return async (dispatch) => {
-        try {
+        
+            const userApi = new Users();
             // insertar en la API
-            await clienteAxios.post('/productos', producto);
+            userApi.login({username, password})
+            .then(async (response) => {
 
-            // Si todo sale bien, actualizar el state
-           dispatch( agregarProductoExito(producto) );
+                const {token, user} = response.data.data;
 
-            // Alerta
-            Swal.fire(
-                'Correcto', 
-                'El producto se agregó correctamente',
-                'success'
-            );
-
-        } catch (error) {
-            console.log(error);
-            // si hay un error cambiar el state
-            dispatch( agregarProductoError(true) );
-
-            // alerta de error
-            Swal.fire({
-                icon: 'error',
-                title: 'Hubo un error',
-                text: 'Hubo un error, intenta de nuevo'
+                console.log(token, user);
+                
+                dispatch( setUserLogin(user, token))
             })
-        }
+            .catch(async (err) =>{})
     }
 }
 

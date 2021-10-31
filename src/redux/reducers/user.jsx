@@ -7,15 +7,18 @@ const initialState = {
     login: false,
 }
 
-export default function(state = initialState, action) {
+export const userReducer = function(state = initialState, action) {
+    console.log(action.payload)
     switch(action.type) {
         case USER_LOGIN:
             return {
                 ...state,
-                user: {name: 'lala'},
+                user: action.payload,
                 login: true
             }
         default:
             return state;
     }
+
+    return state;
 }

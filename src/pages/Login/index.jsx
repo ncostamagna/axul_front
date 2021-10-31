@@ -2,19 +2,27 @@ import { LockClosedIcon } from '@heroicons/react/solid'
 import {useState} from 'react'
 import Swal from 'sweetalert2'
 
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../redux/actions/users';
+
 export default function Login() {
     
-  const [user, setUser] = useState({username: '', password:''});
-    function handleSubmit(e) {
-      e.preventDefault();
 
-      if (user.username === "" || user.password === ""){
+  const [user, setUser] = useState({username: '', password:''});
+  const dispatch = useDispatch();
+
+  function handleSubmit(e) {
+      e.preventDefault();
+      const {username, password} = user
+      if (username === "" || password === ""){
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'User and password are required'
         })
       }
+
+      dispatch( loginAction(username, password));
       
     }
 
