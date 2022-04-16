@@ -13,8 +13,6 @@ export function loginAction(username, password) {
             .then(async (response) => {
 
                 const {token, user} = response.data.data;
-
-                console.log(token, user);
                 
                 dispatch( setUserLogin(user, token))
                 localStorage.setItem('user_token', token)

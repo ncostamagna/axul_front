@@ -18,10 +18,6 @@ const Router = () => {
         login = true
     }
 
-    useEffect( () => {
-        console.log("listo");
-    })
-
     return (
         <div className='container mx-auto'>
                 {
