@@ -9,7 +9,6 @@ export function loginAction(username, password) {
     return async (dispatch) => {
         
             const userApi = new Users();
-            // insertar en la API
             userApi.login({username, password})
             .then(async (response) => {
 
@@ -18,8 +17,16 @@ export function loginAction(username, password) {
                 console.log(token, user);
                 
                 dispatch( setUserLogin(user, token))
+                localStorage.setItem('user_token', token)
+
+                delete user.password;
+                localStorage.setItem("user", JSON.stringify(user));
+
             })
-            .catch(async (err) =>{})
+            .catch(async (err) =>{
+                localStorage.removeItem("user_token");
+                localStorage.removeItem("user");
+            })
     }
 }
 

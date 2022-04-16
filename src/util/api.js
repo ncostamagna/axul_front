@@ -4,17 +4,20 @@ class Contacts {
   constructor() {
     this.api_token = null;
     this.client = null;
-    this.api_url = "http://ec2-44-197-130-73.compute-1.amazonaws.com:32126";
+    this.api_url = "http://ec2-54-211-247-153.compute-1.amazonaws.com:8083";
   }
 
   init = () => {
     let headers = {
       Accept: "application/json",
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
     };
 
     this.client = axios.create({
       baseURL: this.api_url,
       timeout: 31000,
+      mode: 'no-cors',
       headers: headers,
     });
 
@@ -55,7 +58,7 @@ class Events {
   constructor() {
     this.api_token = null;
     this.client = null;
-    this.api_url = "http://ec2-44-197-130-73.compute-1.amazonaws.com:30997";
+    this.api_url = "http://ec2-54-211-247-153.compute-1.amazonaws.com:8082";
   }
 
   init = () => {
@@ -101,7 +104,7 @@ class Users {
   constructor() {
     this.api_token = null;
     this.client = null;
-    this.api_url = "http://ec2-44-197-130-73.compute-1.amazonaws.com:31217";
+    this.api_url = "http://ec2-54-211-247-153.compute-1.amazonaws.com:8081";
   }
 
   init = () => {

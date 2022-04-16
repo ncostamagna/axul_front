@@ -1,7 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import {useState} from 'react'
 import Swal from 'sweetalert2'
-
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../../redux/actions/users';
 
@@ -23,6 +22,7 @@ export default function Login() {
       }
 
       dispatch( loginAction(username, password));
+
       
     }
 

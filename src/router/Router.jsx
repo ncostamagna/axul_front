@@ -1,18 +1,34 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Contact from '../pages/Contact'
-import Home from '../pages/Home'
 
-function Router() {
-  return (
+import React, {useEffect} from 'react'
+import Login from '../pages/Login'
+import PrivateRouter from './PrivateRouter'
+import { useSelector } from 'react-redux';
 
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/contacts" component={Contact} />
-                </Switch>
-            </BrowserRouter>
-  );
+const Router = () => {
+
+    const user = useSelector(state => state.userReducer.user);
+
+    let login = false;
+    if (user != null && user.token != null) {
+        login = true;
+    }
+
+    let token = localStorage.getItem("user_token");
+    if (token != null ){
+        login = true
+    }
+
+    useEffect( () => {
+        console.log("listo");
+    })
+
+    return (
+        <div className='container mx-auto'>
+                {
+                    login === true?<PrivateRouter />:<Login />
+                }
+        </div>
+    )
 }
 
-export default Router;
+export default Router
