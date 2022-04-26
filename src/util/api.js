@@ -4,20 +4,19 @@ class Contacts {
   constructor() {
     this.api_token = null;
     this.client = null;
-    this.api_url = "http://ec2-54-211-247-153.compute-1.amazonaws.com:8083";
+    this.api_url = "http://3c5c-181-28-190-29.ngrok.io";
   }
 
   init = () => {
     let headers = {
       Accept: "application/json",
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json'
+      id: "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+      token: "e83579c7d08bdfe7ef4a7383565bd66efdf1089ffdff6f99dc77b0a5eadbb5fdf6e12ce63f47b533b2478d17aebb8967720cc06c39cc749c85534cbcb609793fa884a64ace5275b5388246f0a3568f584b14c7db7d9777c683f81f4e2984221a57ed1af9bc8b9ff88a6ff3c45b884e3b6cc2ed99b4904a1899029b254cc04fdf0c77f28cf37daedf735bf80e81d2b2b212d3beb70ceaa3e9e86beb5b439428859e17be5c07d4a0e655a3d7572a049f40d5446ea2258571e9427c542a05cdf1dc6478fbaace95299d36b822"
     };
 
     this.client = axios.create({
       baseURL: this.api_url,
       timeout: 31000,
-      mode: 'no-cors',
       headers: headers,
     });
 
@@ -42,9 +41,9 @@ class Contacts {
     return this.init().get(`/contacts${path}`, {headers});
   };
 
-  getByDays = (days, headers) => {
+  getByDays = (days) => {
     console.log(`GET /contacts?days=${days}`)
-    return this.init().get(`/contacts?days=${days}`, {headers});
+    return this.init().get(`/contacts?days=${days}`);
   };
 
   create = (body, headers) => {
@@ -104,7 +103,7 @@ class Users {
   constructor() {
     this.api_token = null;
     this.client = null;
-    this.api_url = "http://ec2-54-211-247-153.compute-1.amazonaws.com:8081";
+    this.api_url = "https://pe0t1xcxad.execute-api.us-east-1.amazonaws.com/prod";
   }
 
   init = () => {
@@ -151,3 +150,11 @@ class Users {
 }
 
 export {Contacts, Events, Users}
+
+
+
+
+
+
+
+
