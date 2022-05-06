@@ -4,6 +4,8 @@ import Router from './router/Router'
 import { Provider } from 'react-redux';
 import store from './redux';
 
+import './style/buttons.css';
+
 const App = () => {
     return (
         <Provider store={store}>
