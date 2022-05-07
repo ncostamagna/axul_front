@@ -6,7 +6,7 @@ function Menu() {
   return (
 
 <Navbar bg="light" expand="lg">
-  <Container fluid>
+  <Container>
     <Navbar.Toggle aria-controls="navbarScroll" />
     <Navbar.Collapse id="navbarScroll">
       <Nav
@@ -21,7 +21,11 @@ function Menu() {
         <Link to={"/contacts"}
                 className="btn  d-block d-md-inline-block">Contact</Link>
   
-
+        <Link to={"/contacts"}
+                className="btn  d-block d-md-inline-block">Events</Link>
+                
+        <Link to={"/contacts"}
+                className="btn  d-block d-md-inline-block">Profile</Link>
       </Nav>
 
     </Navbar.Collapse>

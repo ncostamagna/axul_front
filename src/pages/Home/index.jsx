@@ -63,7 +63,7 @@ function Home() {
       <Row className='mt-3 d-flex '>
         { 
         contacts.map(c => 
-          <div key={c.id} className="col-12 mb-5">
+          <div key={c.id} className="col-12 mb-2">
             <div className="rounded shadow-sm py-4 px-4" style={birhtdayStyle(c.days)}>
               <Row>
                 <div className="col-9">

@@ -35,7 +35,7 @@ const Router = () => {
     return (<Fragment>
 
         {
-            load.loading === true?<Spinner />:<div className='container mx-auto'>
+            load.loading === true?<Spinner />:<div className='container-fluid mx-auto'>
             {
                 login === true?<PrivateRouter />:<Login />
             }
