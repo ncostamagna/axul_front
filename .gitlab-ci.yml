@@ -9,8 +9,6 @@ stages:
 
 lint-prod:
   stage: test-prod
-  tags:
-    - SGE
   script:
     - npm ci
     - npm run lint
@@ -27,8 +25,6 @@ lint-prod:
 
 build-prod:
   stage: build-prod
-  tags:
-    - SGE
   script:
     - npm ci
     - CI=false
@@ -46,20 +42,19 @@ build-prod:
 
 deploy-prod:
   stage: deploy-prod
-  tags:
-    - SGE
   image: python:alpine
   script:
     - pip3 install awscli --upgrade
-    - aws s3 sync build s3://$BUCKET_NAME
+    - export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+    - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    - export AWS_DEFAULT_REGION=${REGION}
+    - aws s3 sync build s3://${BUCKET}
   only:
     - master
   environment: PROD
 
 test-prod:
   stage: test-prod
-  tags:
-    - SGE
   script:
     - npm ci
     - npm test
