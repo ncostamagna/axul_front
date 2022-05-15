@@ -7,7 +7,7 @@ stages:
   - build-prod
   - deploy-prod
 
-lint-prod:
+.lint-prod:
   stage: test-prod
   script:
     - npm ci
@@ -53,7 +53,7 @@ deploy-prod:
     - master
   environment: PROD
 
-test-prod:
+.test-prod:
   stage: test-prod
   script:
     - npm ci
