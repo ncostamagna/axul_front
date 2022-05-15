@@ -17,12 +17,12 @@ const ContactSearch = ({setOperation}) => {
     <Form className="mt-3" onSubmit={search}>
 
   <Form.Group className="mb-3" lg={6} controlId="formFirstName">
-    <Form.Label>First Name</Form.Label>
+    <Form.Label>First Name test</Form.Label>
     <Form.Control type="firstName" placeholder="Enter first name" />
   </Form.Group>
 
   <Form.Group className="mb-3" lg={6} controlId="formLastName">
-    <Form.Label>Last Name</Form.Label>
+    <Form.Label>Last Name test</Form.Label>
     <Form.Control type="firstName" placeholder="Enter first name" />
   </Form.Group>
 
@@ -32,7 +32,7 @@ const ContactSearch = ({setOperation}) => {
         <option>Open this select menu</option>
         <option value="1">One</option>
         <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option value="3">Test CI</option>
     </Form.Select>
   </Form.Group>
   <Form.Group className="mb-3" controlId="formBasicCheckbox">
