@@ -52,9 +52,9 @@ const ContactSearch = ({setOperation, setContacts, contacts}) => {
       <option value="7">July</option>
       <option value="8">August</option>
       <option value="9">September</option>
-      <option value="1"> October</option>
-      <option value="1"> November</option>
-      <option value="1"> December</option>
+      <option value="10"> October</option>
+      <option value="11"> November</option>
+      <option value="12"> December</option>
     </Form.Select>
   </Form.Group>
   <Button variant="primary" type="submit" className='px-4 py-3 mx-1 principalButton'>
@@ -75,7 +75,7 @@ const ContactSearch = ({setOperation, setContacts, contacts}) => {
                 <h5 className="mb-0">{c.firstname + " " + c.lastname}</h5><span className="small text-muted h5">{birthdayFormat(c.birthday, c.days)}</span>
               </div>
               <div className="col-4">
-                <Button className="optionButton mx-1 btn-danger"><ImBin ></ImBin></Button><Button className="optionButton mx-1"><ImSearch></ImSearch></Button>
+                <Button className="optionButton btn-danger ml-1"><ImBin ></ImBin></Button><Button className="optionButton"><ImSearch></ImSearch></Button>
               </div>
               
               </Row>
