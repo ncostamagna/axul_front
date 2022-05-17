@@ -5,7 +5,7 @@ import { ImBin,ImSearch,ImPlus } from "react-icons/im";
 
 const ContactSearch = ({setOperation, setContacts, contacts}) => {
   
-    let click = () => {
+    let add = (e) => {
         setOperation("ADD");
     }
 
@@ -60,7 +60,7 @@ const ContactSearch = ({setOperation, setContacts, contacts}) => {
   <Button variant="primary" type="submit" className='px-4 py-3 mx-1 principalButton'>
     <ImSearch></ImSearch>
   </Button>
-  <Button variant="success" type="submit" className='px-4 py-3 mx-1 principalButton'>
+  <Button variant="success" className='px-4 py-3 mx-1 principalButton' onClick={add}>
     <ImPlus></ImPlus>
   </Button>
     </Form>
