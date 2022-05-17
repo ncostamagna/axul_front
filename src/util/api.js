@@ -24,22 +24,23 @@ class Contacts {
     return this.client;
   };
 
-  get = (contact, headers) => {
-    const {name, month} = contact
+  get = (firstname, lastname, month, token, userID) => {
     let path = "";
 
-    if (name !== ""){
-      path = path ===""?"?":`${path}&`
-      path = `${path}name=${name}`
+    if (firstname !== "" && firstname != null){
+      path = `${path}firstname=${firstname}&`
     }
 
-    if (month !== 0){
-      path = path ===""?"?":`${path}&`
-      path = `${path}month=${month}`;
+    if (month !== 0 && month != null){
+      path = `${path}month=${month}&`;
+    }
+
+    if (lastname !== 0 && lastname != null){
+      path = `${path}month=${lastname}&`;
     }
 
     console.log(`GET /contacts${path}`)
-    return this.init().get(`/contacts${path}`);
+    return this.init(token).get(`/contacts?${path}userid=${userID}`);
   };
 
   getByDays = (days, token, userID) => {

@@ -21,7 +21,7 @@ const router = (operation, setOperation, contacts,setContacts,index, setIndex) =
 
   switch (operation) {
     case 'SEARCH':
-      return <ContactSearch setOperation={setOperation} setContacts={setContacts} setIndex={setIndex}/>
+      return <ContactSearch setOperation={setOperation} setContacts={setContacts} setIndex={setIndex} contacts={contacts}/>
     case 'ADD':
       return <ContactView setOperation={setOperation} contacts={contacts} setContacts={setContacts}/>
     case 'VIEW':
