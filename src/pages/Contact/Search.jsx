@@ -28,7 +28,7 @@ const ContactSearch = ({setOperation, setContacts, contacts}) => {
     }
   return (
     <Container>
-    <Form className="mt-3" onSubmit={search}>
+    <Form className="mt-3">
 
   <Form.Group className="mb-3" lg={6} controlId="formFirstName">
     <Form.Label>First Name</Form.Label>
@@ -41,7 +41,7 @@ const ContactSearch = ({setOperation, setContacts, contacts}) => {
   </Form.Group>
   <Form.Group className="mb-3" controlId="formMonth">
     <Form.Label>Month</Form.Label>
-    <Form.Select aria-label="Default select example">
+    <Form.Select aria-label="Month">
       <option value="0"></option>  
       <option value="1">January</option>
       <option value="2">February</option>
@@ -57,7 +57,7 @@ const ContactSearch = ({setOperation, setContacts, contacts}) => {
       <option value="12"> December</option>
     </Form.Select>
   </Form.Group>
-  <Button variant="primary" type="submit" className='px-4 py-3 mx-1 principalButton'>
+  <Button variant="primary" onClick={search} className='px-4 py-3 mx-1 principalButton'>
     <ImSearch></ImSearch>
   </Button>
   <Button variant="success" className='px-4 py-3 mx-1 principalButton' onClick={add}>
