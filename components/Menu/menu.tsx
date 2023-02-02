@@ -12,11 +12,21 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useRouter } from "next/router";
 
-const pages = ["Contacts", "Events", "Templates"];
+const pages = [
+  {
+    label: "Contacts",
+    url: "/contacts",
+  },
+  { label: "Events", url: "/events" },
+  { label: "Templates", url: "/templates" },
+];
 const settings = ["Profile", "Password", "Logout"];
 
 export default function AppMenu() {
+  const router = useRouter();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -35,6 +45,12 @@ export default function AppMenu() {
     setAnchorElNav(null);
   };
 
+  const handlerClick = (event: any, url: string) => {
+    console.log(url);
+    router.push(url);
+    setAnchorElNav(null);
+  };
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -48,7 +64,7 @@ export default function AppMenu() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={(e) => handlerClick(e, "/home")}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -92,8 +108,11 @@ export default function AppMenu() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.label}
+                  onClick={(e) => handlerClick(e, page.url)}
+                >
+                  <Typography textAlign="center">{page.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -120,11 +139,11 @@ export default function AppMenu() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.label}
+                onClick={(e) => handlerClick(e, page.url)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
