@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BACK_URL = "https://pe0t1xcxad.execute-api.us-east-1.amazonaws.com/prod";
 
-type User = {
+export type User = {
   id: string;
   firstname: string;
   lastname: string;
@@ -12,16 +12,14 @@ type User = {
 };
 
 type GetUsersResponse = {
-  data: {
-    data: User[];
-  };
+  data: User[];
 };
 
 export const getNextBirthday = async (
   days = 4,
   token: string,
   userID: string
-): Promise<any> => {
+): Promise<User[]> => {
   const options = {
     method: "GET",
     headers: {

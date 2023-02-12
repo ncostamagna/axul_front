@@ -2,7 +2,8 @@ import { Grid, Container, Typography } from "@mui/material";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
 import { useState, useEffect } from "react";
-import { getNextBirthday } from "@/api/contact/api";
+import { getNextBirthday, User } from "@/api/contact/api";
+import { getDate } from "@/common/format/date";
 const inter = Inter({ subsets: ["latin"] });
 
 const dates = [
@@ -14,7 +15,7 @@ const dates = [
 
 export default function Home() {
   const [users, setUsers] = useState(
-    new Map<number, any[]>([
+    new Map<number, User[]>([
       [0, []],
       [1, []],
       [2, []],
@@ -23,7 +24,7 @@ export default function Home() {
   );
   useEffect(() => {
     const fetchData = async () => {
-      let userMap = new Map<number, any[]>([
+      let userMap = new Map<number, User[]>([
         [0, []],
         [1, []],
         [2, []],
@@ -73,7 +74,7 @@ export default function Home() {
                       {`${user.firstname} ${user.lastname}`}
                     </Typography>
                     <Typography variant="body1" component="p">
-                      11/10
+                      {getDate(user.birthday)}
                     </Typography>
                   </Grid>
                 ))}
