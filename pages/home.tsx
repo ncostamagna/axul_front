@@ -1,6 +1,8 @@
 import { Grid, Container, Typography } from "@mui/material";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
+import { useState, useEffect } from "react";
+import { getNextBirthday, User } from "@/api/contact/api";
 const inter = Inter({ subsets: ["latin"] });
 
 const dates = [
@@ -11,6 +13,40 @@ const dates = [
 ];
 
 export default function Home() {
+  const [users, setUsers] = useState(
+    new Map<number, User[]>([
+      [0, []],
+      [1, []],
+      [2, []],
+      [3, []],
+    ])
+  );
+  useEffect(() => {
+    const fetchData = async () => {
+      let userMap = new Map<number, User[]>([
+        [0, []],
+        [1, []],
+        [2, []],
+        [3, []],
+      ]);
+      const users = await getNextBirthday(
+        4,
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
+        "6b9b1014-05be-4d51-a695-59e2cc5eb2bd"
+      );
+
+      for (const user of users) {
+        userMap.get(user.days).push(user);
+        console.log(user);
+      }
+      console.log(userMap);
+      setUsers(userMap);
+    };
+
+    fetchData().catch(console.error);
+  }, []);
+
+  console.log(users);
   return (
     <>
       <AppMenu></AppMenu>
@@ -31,14 +67,16 @@ export default function Home() {
                 {date.label}
               </Typography>
               <Grid container>
-                <Grid item>
-                  <Typography variant="subtitle1" component="p">
-                    Nahuel Costamagna
-                  </Typography>
-                  <Typography variant="body1" component="p">
-                    11/10
-                  </Typography>
-                </Grid>
+                {users.get(date.days).map((user) => (
+                  <Grid item key={user.id}>
+                    <Typography variant="subtitle1" component="p">
+                      {`${user.firstname} ${user.lastname}`}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                      11/10
+                    </Typography>
+                  </Grid>
+                ))}
               </Grid>
             </Grid>
           ))}
