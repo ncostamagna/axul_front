@@ -2,7 +2,7 @@ import { Grid, Container, Typography } from "@mui/material";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
 import { useState, useEffect } from "react";
-import { getNextBirthday, User } from "@/api/contact/api";
+import { getNextBirthday } from "@/api/contact/api";
 const inter = Inter({ subsets: ["latin"] });
 
 const dates = [
@@ -14,7 +14,7 @@ const dates = [
 
 export default function Home() {
   const [users, setUsers] = useState(
-    new Map<number, User[]>([
+    new Map<number, any[]>([
       [0, []],
       [1, []],
       [2, []],
@@ -23,7 +23,7 @@ export default function Home() {
   );
   useEffect(() => {
     const fetchData = async () => {
-      let userMap = new Map<number, User[]>([
+      let userMap = new Map<number, any[]>([
         [0, []],
         [1, []],
         [2, []],
@@ -36,7 +36,7 @@ export default function Home() {
       );
 
       for (const user of users) {
-        userMap.get(user.days).push(user);
+        userMap.get(user.days)?.push(user);
         console.log(user);
       }
       console.log(userMap);
@@ -67,7 +67,7 @@ export default function Home() {
                 {date.label}
               </Typography>
               <Grid container>
-                {users.get(date.days).map((user) => (
+                {users.get(date.days)?.map((user) => (
                   <Grid item key={user.id}>
                     <Typography variant="subtitle1" component="p">
                       {`${user.firstname} ${user.lastname}`}

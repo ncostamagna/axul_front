@@ -21,7 +21,7 @@ export const getNextBirthday = async (
   days = 4,
   token: string,
   userID: string
-): User[] => {
+): Promise<any> => {
   const options = {
     method: "GET",
     headers: {
