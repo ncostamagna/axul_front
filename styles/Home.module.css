@@ -2,4 +2,18 @@
   background-color: #1976d2;
   color: #ffffff;
   border-radius: 10px 10px 0px 0px;
+  font-family: "ubuntu";
+}
+
+.headerSectin {
+  border: 1px solid #1976d2;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #a56ef91f;
+  font-family: "ubuntu";
+}
+
+.personBirtday {
+  padding-bottom: 5px;
+  padding-top: 5px;
 }

@@ -69,7 +69,7 @@ export default function AppMenu() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "ubuntu",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -112,6 +112,9 @@ export default function AppMenu() {
                 <MenuItem
                   key={page.label}
                   onClick={(e) => handlerClick(e, page.url)}
+                  sx={{
+                    fontFamily: "ubuntu",
+                  }}
                 >
                   <Typography textAlign="center">{page.label}</Typography>
                 </MenuItem>
@@ -128,7 +131,7 @@ export default function AppMenu() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
+              fontFamily: "ubuntu",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -142,7 +145,12 @@ export default function AppMenu() {
               <Button
                 key={page.label}
                 onClick={(e) => handlerClick(e, page.url)}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontFamily: "ubuntu",
+                }}
               >
                 {page.label}
               </Button>
@@ -172,7 +180,13 @@ export default function AppMenu() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={handleCloseUserMenu}
+                  sx={{
+                    fontFamily: "ubuntu",
+                  }}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

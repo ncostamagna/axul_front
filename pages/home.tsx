@@ -55,27 +55,49 @@ export default function Home() {
       <Container>
         <Grid container spacing={3}>
           {dates.map((date) => (
-            <Grid item xs={12} md={3} key={date.label}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              key={date.label}
+              marginBottom={{
+                lg: 5,
+                md: 1,
+              }}
+            >
               <Typography
                 variant="h6"
                 component="p"
                 align="center"
                 marginTop={2}
-                marginBottom={{
-                  lg: 5,
-                  md: 1,
-                }}
                 className={style.headerTitle}
               >
                 {date.label}
               </Typography>
-              <Grid container>
+              <Grid container className={style.headerSectin}>
                 {users.get(date.days)?.map((user) => (
-                  <Grid item key={user.id}>
-                    <Typography variant="subtitle1" component="p">
+                  <Grid
+                    item
+                    key={user.id}
+                    xs={12}
+                    className={style.personBirtday}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      component="p"
+                      sx={{
+                        fontFamily: "ubuntu",
+                      }}
+                    >
                       {`${user.firstname} ${user.lastname}`}
                     </Typography>
-                    <Typography variant="body1" component="p">
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      sx={{
+                        fontFamily: "ubuntu",
+                      }}
+                    >
                       {getDate(user.birthday)}
                     </Typography>
                   </Grid>
