@@ -61,6 +61,7 @@ export default function AppMenu() {
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
+            className="pointer"
             variant="h6"
             noWrap
             component="a"

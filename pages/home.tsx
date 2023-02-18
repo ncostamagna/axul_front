@@ -4,6 +4,7 @@ import AppMenu from "@/components/Menu/menu";
 import { useState, useEffect } from "react";
 import { getNextBirthday, User } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
+import style from "../styles/Home.module.css";
 const inter = Inter({ subsets: ["latin"] });
 
 const dates = [
@@ -64,6 +65,7 @@ export default function Home() {
                   lg: 5,
                   md: 1,
                 }}
+                className={style.headerTitle}
               >
                 {date.label}
               </Typography>
