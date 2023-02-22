@@ -1,10 +1,32 @@
+import * as React from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
+import {
+  Grid,
+  Container,
+  TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Button,
+} from "@mui/material";
+import Search from "@mui/icons-material/Search";
+import Add from "@mui/icons-material/Add";
+import Backspace from "@mui/icons-material/Backspace";
+
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Contact() {
+  const [month, setMonth] = React.useState("");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    console.log(event.target.value);
+    setMonth(event.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -14,7 +36,70 @@ export default function Contact() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AppMenu></AppMenu>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Container>
+        <Grid container spacing={2} marginTop={5}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              id="outlined-basic"
+              label="First name"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              id="outlined-basic"
+              label="Last name"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Month</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={month}
+                label="Month"
+                onChange={handleChange}
+              >
+                <MenuItem value={""}>None</MenuItem>
+                <MenuItem value={"10"}>Ten</MenuItem>
+                <MenuItem value={"20"}>Twenty</MenuItem>
+                <MenuItem value={"30"}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Button variant="contained" startIcon={<Search />} fullWidth>
+              Search
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Button
+              variant="contained"
+              color="warning"
+              startIcon={<Backspace />}
+              fullWidth
+            >
+              Clear
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<Add />}
+              fullWidth
+            >
+              Add
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }

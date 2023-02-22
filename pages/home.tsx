@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import { getNextBirthday, User } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
 import style from "../styles/Home.module.css";
-const inter = Inter({ subsets: ["latin"] });
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import type { GetStaticProps } from "next";
 
 const dates = [
   { label: "Today", days: 0 },
@@ -14,7 +16,12 @@ const dates = [
   { label: "After Overmorrow", days: 3 },
 ];
 
-export default function Home() {
+type Props = {
+  // Add custom props here
+};
+
+const Home = () => {
+  const { t } = useTranslation("main");
   const [users, setUsers] = useState(
     new Map<number, User[]>([
       [0, []],
@@ -48,11 +55,12 @@ export default function Home() {
     fetchData().catch(console.error);
   }, []);
 
-  console.log(users);
+  console.log(t);
   return (
     <>
       <AppMenu></AppMenu>
       <Container>
+        {t("test")}
         <Grid container spacing={3}>
           {dates.map((date) => (
             <Grid
@@ -109,4 +117,12 @@ export default function Home() {
       </Container>
     </>
   );
-}
+};
+
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? "en", ["main"])),
+  },
+});
+
+export default Home;
