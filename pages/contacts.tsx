@@ -16,14 +16,15 @@ import Add from "@mui/icons-material/Add";
 import Backspace from "@mui/icons-material/Backspace";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { withAuthSync } from "@/common/auth/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Contact() {
+const Contact = () => {
   const [month, setMonth] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
-    console.log(event.target.value);
+    window.localStorage.setItem("test", "1234");
     setMonth(event.target.value);
   };
 
@@ -102,4 +103,6 @@ export default function Contact() {
       </Container>
     </>
   );
-}
+};
+
+export default withAuthSync(Contact);
