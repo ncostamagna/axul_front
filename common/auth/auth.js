@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Router from "next/router";
-import Spinner from "@/components/Spinner/spinner";
+import Spinner from "@/components/Spinner/Spinner";
 
 export const withAuthSync = (Component) => {
   const Wrapper = (props) => {
@@ -14,8 +14,6 @@ export const withAuthSync = (Component) => {
     }*/
 
     useEffect(() => {
-      console.log("validation login");
-
       window.localStorage.setItem("lala", 123);
       setSpinner(false);
     }, []);

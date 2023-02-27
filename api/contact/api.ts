@@ -37,3 +37,28 @@ export const getNextBirthday = async (
   console.log(response.data.data);
   return response.data.data;
 };
+
+export const getAllContacts = async (
+  token: string,
+  userID: string,
+  firstName: string,
+  lastName: string,
+  month: string
+): Promise<User[]> => {
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: token,
+    },
+  };
+
+  const response = await axios.get<GetUsersResponse>(
+    `${BACK_URL}/contacts?userid=${userID}`,
+    options
+  );
+
+  console.log(response);
+  console.log(response.data.data);
+  return response.data.data;
+};

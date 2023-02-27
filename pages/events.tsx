@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
+import { withAuthSync } from "@/common/auth/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Events() {
+const Events = () => {
   return (
     <>
       <Head>
@@ -17,4 +18,6 @@ export default function Events() {
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
     </>
   );
-}
+};
+
+export default withAuthSync(Events);

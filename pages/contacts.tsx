@@ -1,6 +1,5 @@
 import * as React from "react";
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
 import {
   Grid,
@@ -11,23 +10,93 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
+
+import { Edit } from "@mui/icons-material";
+import Table from "@/components/DataGrid/Table";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Search from "@mui/icons-material/Search";
 import Add from "@mui/icons-material/Add";
 import Backspace from "@mui/icons-material/Backspace";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
+import { getAllContacts, User } from "@/api/contact/api";
+import { getDate } from "@/common/format/date";
 
-const inter = Inter({ subsets: ["latin"] });
+const columns = [
+  { value: "Name", size: { xs: 5 } },
+  { value: "Birthday", size: { xs: 3 } },
+  { value: "Days", size: { xs: 2 } },
+];
+
+const buttons = [
+  {
+    size: { xs: 1 },
+    color: "primary",
+    icon: Edit,
+  },
+  {
+    size: { xs: 1 },
+    color: "error",
+    icon: DeleteIcon,
+  },
+];
 
 const Contact = () => {
   const [month, setMonth] = React.useState("");
 
+  const [contacts, setContacts] = React.useState<{ values: string[][] }>({
+    values: [],
+  });
   const handleChange = (event: SelectChangeEvent) => {
     window.localStorage.setItem("test", "1234");
     setMonth(event.target.value);
   };
 
+  const handleSearch = async () => {
+    console.log("test");
+
+    const fetchData = async () => {
+      let userMap = new Map<number, User[]>([
+        [0, []],
+        [1, []],
+        [2, []],
+        [3, []],
+      ]);
+      const users = await getAllContacts(
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
+        "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+        "",
+        "",
+        ""
+      );
+
+      console.log(users);
+      return users;
+    };
+
+    console.log("test start");
+    fetchData()
+      .then((data) => {
+        console.log("data");
+        let values: string[][] = [];
+        for (const c of data) {
+          values.push([
+            `${c.firstname} ${c.lastname}`,
+            getDate(c.birthday),
+            `${c.days}`,
+          ]);
+        }
+        setContacts({
+          values: values,
+        });
+      })
+      .catch(console.error)
+      .finally(() => {
+        console.log("end fetch");
+      });
+    console.log("test end");
+  };
   return (
     <>
       <Head>
@@ -75,7 +144,12 @@ const Contact = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} md={2}>
-            <Button variant="contained" startIcon={<Search />} fullWidth>
+            <Button
+              variant="contained"
+              startIcon={<Search />}
+              fullWidth
+              onClick={handleSearch}
+            >
               Search
             </Button>
           </Grid>
@@ -98,6 +172,13 @@ const Contact = () => {
             >
               Add
             </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Table
+              columns={columns}
+              values={contacts.values}
+              buttons={buttons}
+            />
           </Grid>
         </Grid>
       </Container>
