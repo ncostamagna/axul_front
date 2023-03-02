@@ -7,6 +7,14 @@ const nextConfig = {
     locales: ["es", "en"],
     defaultLocale: "en",
   },
+  modularizeImports: {
+    "@mui/material/?(((\\w*)?/?)*)": {
+      transform: "@mui/material/{{ matches.[1] }}/{{member}}",
+    },
+    "@mui/icons-material/?(((\\w*)?/?)*)": {
+      transform: "@mui/icons-material/{{ matches.[1] }}/{{member}}",
+    },
+  },
 };
 
 module.exports = nextConfig;

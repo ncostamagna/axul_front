@@ -5,11 +5,11 @@ type Size = {
   xs: number;
 };
 
-// same name that Object Button by Material, I'll fix this issue
-type Button = {
+type Butt = {
   size: Size;
   color: string;
   icon: any;
+  fun: (id: string) => void;
 };
 
 type Column = {
@@ -20,46 +20,55 @@ type Column = {
 type Props = {
   columns: Column[];
   values: string[][];
-  buttons: Button[] | null;
+  buttons: Butt[] | null;
 };
 
 const Table = (props: Props) => {
   return (
     <Grid container spacing={2}>
       {props.columns.map((c, i) => (
-        <Grid item {...c.size} key={`1-${i}`}>
-          {c.value}
-        </Grid>
+        <React.Fragment key={`1-${i}`}>
+          <Grid item {...c.size}>
+            {c.value + " " + `1-${i}`}
+          </Grid>
+        </React.Fragment>
       ))}
 
       {props.buttons?.map((item, i) => (
-        <Grid item {...item.size} key={`2-${i}`}></Grid>
+        <React.Fragment key={`2-${i}`}>
+          <Grid item {...item.size}></Grid>
+        </React.Fragment>
       ))}
       {props.values.map((value: string[], row: number) => (
-        <>
+        <React.Fragment key={`5-${row}`}>
           {value.map((v: string, i: number) => (
-            <Grid item {...props.columns[i].size} key={`3-${i}`}>
-              {v}
-            </Grid>
+            <React.Fragment key={`3-${i}`}>
+              <Grid item {...props.columns[i].size}>
+                {v}
+              </Grid>
+            </React.Fragment>
           ))}
           {props.buttons?.map((item, i) => (
-            <Grid item {...item.size} key={`4-${i}`}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                sx={{
-                  padding: 0,
-                  width: "100%",
-                  minWidth: "auto",
-                }}
-                fullWidth
-              >
-                {<item.icon />}
-              </Button>
-            </Grid>
+            <React.Fragment key={`4-${i}`}>
+              <Grid item {...item.size}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  sx={{
+                    padding: 0,
+                    width: "100%",
+                    minWidth: "auto",
+                  }}
+                  fullWidth
+                  onClick={() => item.fun(props.id[row])}
+                >
+                  {<item.icon />}
+                </Button>
+              </Grid>
+            </React.Fragment>
           ))}
-        </>
+        </React.Fragment>
       ))}
     </Grid>
   );

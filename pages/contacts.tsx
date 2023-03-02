@@ -22,6 +22,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
 import { getAllContacts, User } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
+import { useRouter } from "next/router";
 
 const columns = [
   { value: "Name", size: { xs: 5 } },
@@ -29,24 +30,15 @@ const columns = [
   { value: "Days", size: { xs: 2 } },
 ];
 
-const buttons = [
-  {
-    size: { xs: 1 },
-    color: "primary",
-    icon: Edit,
-  },
-  {
-    size: { xs: 1 },
-    color: "error",
-    icon: DeleteIcon,
-  },
-];
-
 const Contact = () => {
   const [month, setMonth] = React.useState("");
-
-  const [contacts, setContacts] = React.useState<{ values: string[][] }>({
+  const router = useRouter();
+  const [contacts, setContacts] = React.useState<{
+    values: string[][];
+    id: string[];
+  }>({
     values: [],
+    id: [],
   });
   const handleChange = (event: SelectChangeEvent) => {
     window.localStorage.setItem("test", "1234");
@@ -80,15 +72,18 @@ const Contact = () => {
       .then((data) => {
         console.log("data");
         let values: string[][] = [];
+        let id: string[] = [];
         for (const c of data) {
           values.push([
             `${c.firstname} ${c.lastname}`,
             getDate(c.birthday),
             `${c.days}`,
           ]);
+          id.push(c.id);
         }
         setContacts({
-          values: values,
+          values,
+          id,
         });
       })
       .catch(console.error)
@@ -97,6 +92,26 @@ const Contact = () => {
       });
     console.log("test end");
   };
+
+  const handleContactEdit = (id: string) => {
+    router.push(`/contacts/${id}`);
+  };
+
+  const buttons = [
+    {
+      size: { xs: 1 },
+      color: "primary",
+      icon: Edit,
+      fun: handleContactEdit,
+    },
+    {
+      size: { xs: 1 },
+      color: "error",
+      icon: DeleteIcon,
+      fun: handleContactEdit,
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -177,6 +192,7 @@ const Contact = () => {
             <Table
               columns={columns}
               values={contacts.values}
+              id={contacts.id}
               buttons={buttons}
             />
           </Grid>
