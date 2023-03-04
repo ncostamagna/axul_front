@@ -97,6 +97,10 @@ const Contact = () => {
     router.push(`/contacts/${id}`);
   };
 
+  const handleContactNew = () => {
+    router.push(`/contacts/new`);
+  };
+
   const buttons = [
     {
       size: { xs: 1 },
@@ -184,6 +188,7 @@ const Contact = () => {
               color="success"
               startIcon={<Add />}
               fullWidth
+              onClick={handleContactNew}
             >
               Add
             </Button>

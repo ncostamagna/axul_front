@@ -21,6 +21,7 @@ type Props = {
   columns: Column[];
   values: string[][];
   buttons: Butt[] | null;
+  id: string[];
 };
 
 const Table = (props: Props) => {
@@ -29,7 +30,7 @@ const Table = (props: Props) => {
       {props.columns.map((c, i) => (
         <React.Fragment key={`1-${i}`}>
           <Grid item {...c.size}>
-            {c.value + " " + `1-${i}`}
+            {c.value}
           </Grid>
         </React.Fragment>
       ))}
