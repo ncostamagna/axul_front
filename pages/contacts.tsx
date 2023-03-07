@@ -20,7 +20,7 @@ import Backspace from "@mui/icons-material/Backspace";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
-import { getAllContacts, User } from "@/api/contact/api";
+import { getAllContacts, Contact } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
 import { useRouter } from "next/router";
 
@@ -49,7 +49,7 @@ const Contact = () => {
     console.log("test");
 
     const fetchData = async () => {
-      let userMap = new Map<number, User[]>([
+      let userMap = new Map<number, Contact[]>([
         [0, []],
         [1, []],
         [2, []],

@@ -53,7 +53,6 @@ const Table = (props: Props) => {
             <React.Fragment key={`4-${i}`}>
               <Grid item {...item.size}>
                 <Button
-                  variant="contained"
                   color="primary"
                   size="small"
                   sx={{

@@ -2,28 +2,23 @@ import { Grid, Container, Typography } from "@mui/material";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
 import { useState, useEffect } from "react";
-import { getNextBirthday, User } from "@/api/contact/api";
+import { getNextBirthday, Contact } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
 import style from "../styles/Home.module.css";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import type { GetStaticProps } from "next";
-
-const dates = [
-  { label: "Today", days: 0 },
-  { label: "Tomorrow", days: 1 },
-  { label: "Overmorrow", days: 2 },
-  { label: "After Overmorrow", days: 3 },
-];
-
-type Props = {
-  // Add custom props here
-};
+import { commonGetStaticProps } from "common/pages/CommonPage";
 
 const Home = () => {
   const { t } = useTranslation("main");
+  const dates = [
+    { label: t("dates.today"), days: 0 },
+    { label: t("dates.tomorrow"), days: 1 },
+    { label: t("dates.overmorrow"), days: 2 },
+    { label: t("dates.afterOvermorrow"), days: 3 },
+  ];
+
   const [users, setUsers] = useState(
-    new Map<number, User[]>([
+    new Map<number, Contact[]>([
       [0, []],
       [1, []],
       [2, []],
@@ -32,7 +27,7 @@ const Home = () => {
   );
   useEffect(() => {
     const fetchData = async () => {
-      let userMap = new Map<number, User[]>([
+      let userMap = new Map<number, Contact[]>([
         [0, []],
         [1, []],
         [2, []],
@@ -60,7 +55,6 @@ const Home = () => {
     <>
       <AppMenu></AppMenu>
       <Container>
-        {t("test")}
         <Grid container spacing={3}>
           {dates.map((date) => (
             <Grid
@@ -119,10 +113,6 @@ const Home = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? "en", ["main"])),
-  },
-});
+export const getStaticProps = commonGetStaticProps;
 
 export default Home;

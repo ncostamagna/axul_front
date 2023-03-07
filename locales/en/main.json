@@ -2,5 +2,11 @@
   "test": "Holita",
   "cluster": {
     "ctdBackendDescription": ""
+  },
+  "dates": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "overmorrow": "Overmorrow",
+    "afterOvermorrow": "After Overmorrow"
   }
 }
