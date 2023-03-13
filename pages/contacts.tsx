@@ -20,9 +20,11 @@ import Backspace from "@mui/icons-material/Backspace";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
-import { getAllContacts, Contact } from "@/api/contact/api";
+import { getAllContacts } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
 import { useRouter } from "next/router";
+
+import useContact from "../hooks/useContact";
 
 const columns = [
   { value: "Name", size: { xs: 5 } },
@@ -33,28 +35,37 @@ const columns = [
 const Contact = () => {
   const [month, setMonth] = React.useState("");
   const router = useRouter();
+  const contStore = useContact((state) => state.contacts);
+  let values: string[][] = [];
+  let id: string[] = [];
+  for (const c of contStore) {
+    values.push([
+      `${c.firstname} ${c.lastname}`,
+      getDate(c.birthday),
+      `${c.days}`,
+    ]);
+    id.push(c.id);
+  }
+
   const [contacts, setContacts] = React.useState<{
     values: string[][];
     id: string[];
   }>({
-    values: [],
-    id: [],
+    values: values,
+    id: id,
   });
+
+  const setContStore = useContact((state) => state.setContacts);
+  const setSelected = useContact((state) => state.setSelected);
+  const clearContacts = useContact((state) => state.clearContacts);
+
   const handleChange = (event: SelectChangeEvent) => {
     window.localStorage.setItem("test", "1234");
     setMonth(event.target.value);
   };
 
   const handleSearch = async () => {
-    console.log("test");
-
     const fetchData = async () => {
-      let userMap = new Map<number, Contact[]>([
-        [0, []],
-        [1, []],
-        [2, []],
-        [3, []],
-      ]);
       const users = await getAllContacts(
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
         "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
@@ -63,14 +74,12 @@ const Contact = () => {
         ""
       );
 
-      console.log(users);
       return users;
     };
 
-    console.log("test start");
     fetchData()
       .then((data) => {
-        console.log("data");
+        setContStore(data);
         let values: string[][] = [];
         let id: string[] = [];
         for (const c of data) {
@@ -81,19 +90,18 @@ const Contact = () => {
           ]);
           id.push(c.id);
         }
+
         setContacts({
           values,
           id,
         });
       })
       .catch(console.error)
-      .finally(() => {
-        console.log("end fetch");
-      });
-    console.log("test end");
+      .finally(() => {});
   };
 
   const handleContactEdit = (id: string) => {
+    setSelected(id);
     router.push(`/contacts/${id}`);
   };
 
@@ -101,6 +109,13 @@ const Contact = () => {
     router.push(`/contacts/new`);
   };
 
+  const handleClear = () => {
+    clearContacts();
+    setContacts({
+      values: [],
+      id: [],
+    });
+  };
   const buttons = [
     {
       size: { xs: 1 },
@@ -178,6 +193,7 @@ const Contact = () => {
               color="warning"
               startIcon={<Backspace />}
               fullWidth
+              onClick={handleClear}
             >
               Clear
             </Button>
@@ -197,8 +213,8 @@ const Contact = () => {
             <Table
               columns={columns}
               values={contacts.values}
-              id={contacts.id}
               buttons={buttons}
+              id={contacts.id}
             />
           </Grid>
         </Grid>

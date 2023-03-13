@@ -13,18 +13,28 @@ import {
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { DAYS, MONTHS, YEARS } from "@/model/contants";
+import useContact from "../../hooks/useContact";
 
 export default function Contact() {
   const router = useRouter();
-  const [contact, setContact] = React.useState<ContactEntity>({
-    id: "",
-    firstname: "",
-    lastname: "",
-    nickname: "",
-    birthday: "",
-    phone: "",
-    days: 0,
-  });
+
+  const contStore = useContact((state) => state.contacts);
+  const selected = useContact((state) => state.selected);
+  const setSelected = useContact((state) => state.setSelected);
+
+  const [contact, setContact] = React.useState<ContactEntity>(
+    selected == null
+      ? {
+          id: "",
+          firstname: "",
+          lastname: "",
+          nickname: "",
+          birthday: "",
+          phone: "",
+          days: 0,
+        }
+      : contStore[selected]
+  );
 
   const [birthday, setBirthday] = React.useState<{
     day: string;
@@ -38,11 +48,20 @@ export default function Contact() {
 
   const id = router.query.id;
 
+  React.useEffect(() => {
+    console.log(id);
+  }, []);
   const handleSave = async () => {
     console.log("test");
 
     console.log(contact);
   };
+
+  const handleBack = async () => {
+    setSelected(null);
+    router.push(`/contacts`);
+  };
+
   return (
     <>
       <AppMenu></AppMenu>
@@ -162,7 +181,12 @@ export default function Contact() {
             </Button>
           </Grid>
           <Grid item xs={12} md={2}>
-            <Button variant="contained" color="success" fullWidth>
+            <Button
+              variant="contained"
+              color="success"
+              fullWidth
+              onClick={handleBack}
+            >
               Back
             </Button>
           </Grid>
