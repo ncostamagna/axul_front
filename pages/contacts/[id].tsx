@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import { Contact as ContactEntity } from "@/api/contact/api";
+import { Contact as ContactEntity, createContact } from "@/api/contact/api";
 import AppMenu from "@/components/Menu/menu";
 import {
   Grid,
@@ -14,11 +14,12 @@ import {
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { DAYS, MONTHS, YEARS } from "@/model/contants";
 import useContact from "../../hooks/useContact";
-
+import { Date, dateToObject, ObjectToDate } from "@/common/format/date";
 export default function Contact() {
   const router = useRouter();
 
   const contStore = useContact((state) => state.contacts);
+  const setContStore = useContact((state) => state.setContacts);
   const selected = useContact((state) => state.selected);
   const setSelected = useContact((state) => state.setSelected);
 
@@ -36,15 +37,9 @@ export default function Contact() {
       : contStore[selected]
   );
 
-  const [birthday, setBirthday] = React.useState<{
-    day: string;
-    month: string;
-    year: string;
-  }>({
-    day: "",
-    month: "",
-    year: "",
-  });
+  const [birthday, setBirthday] = React.useState<Date>(
+    dateToObject(contact.birthday)
+  );
 
   const id = router.query.id;
 
@@ -52,7 +47,32 @@ export default function Contact() {
     console.log(id);
   }, []);
   const handleSave = async () => {
-    console.log("test");
+    contact.birthday = ObjectToDate(birthday);
+    contact.phone = contact.phone.replace(/[ +-,.]/g, "");
+    if (contact.id == "") {
+      console.log("new");
+      const fetchData = async () => {
+        const cont = await createContact(
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
+          "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+          contact
+        );
+
+        return cont;
+      };
+
+      fetchData()
+        .then((data) => {
+          console.log(data);
+          let c = contStore;
+          c.push(data);
+          setContStore(c);
+          setSelected(null);
+          router.push(`/contacts`);
+        })
+        .catch(console.error)
+        .finally(() => {});
+    }
 
     console.log(contact);
   };
@@ -123,8 +143,8 @@ export default function Contact() {
                 }}
               >
                 {MONTHS.map((item, i) => (
-                  <MenuItem key={`2-${i}`} value={item}>
-                    {item}
+                  <MenuItem key={`2-${i}`} value={item.key}>
+                    {item.value}
                   </MenuItem>
                 ))}
               </Select>

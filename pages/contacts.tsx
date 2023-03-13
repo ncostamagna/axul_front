@@ -44,7 +44,9 @@ const Contact = () => {
       getDate(c.birthday),
       `${c.days}`,
     ]);
-    id.push(c.id);
+    if (c.id != undefined) {
+      id.push(c.id);
+    }
   }
 
   const [contacts, setContacts] = React.useState<{
@@ -88,7 +90,9 @@ const Contact = () => {
             getDate(c.birthday),
             `${c.days}`,
           ]);
-          id.push(c.id);
+          if (c.id != undefined) {
+            id.push(c.id);
+          }
         }
 
         setContacts({

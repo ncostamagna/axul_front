@@ -3,7 +3,7 @@ import axios from "axios";
 const BACK_URL = "https://pe0t1xcxad.execute-api.us-east-1.amazonaws.com/prod";
 
 export type Contact = {
-  id: string;
+  id?: string;
   firstname: string;
   lastname: string;
   nickname: string;
@@ -14,6 +14,9 @@ export type Contact = {
 
 type GetContactsResponse = {
   data: Contact[];
+};
+type StoreContactsResponse = {
+  data: Contact;
 };
 
 export const getNextBirthday = async (
@@ -54,6 +57,31 @@ export const getAllContacts = async (
 
   const response = await axios.get<GetContactsResponse>(
     `${BACK_URL}/contacts?userid=${userID}&limit=1000`,
+    options
+  );
+
+  return response.data.data;
+};
+
+export const createContact = async (
+  token: string,
+  userID: string,
+  contact: Contact
+): Promise<Contact> => {
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: token,
+    },
+  };
+
+  let c = contact;
+  delete c.id;
+
+  const response = await axios.post<StoreContactsResponse>(
+    `${BACK_URL}/contacts?userid=${userID}`,
+    contact,
     options
   );
 
