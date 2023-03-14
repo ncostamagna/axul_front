@@ -13,18 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { useState, useEffect } from "react";
+import { commonGetStaticProps } from "common/pages/CommonPage";
 
-const pages = [
-  {
-    label: "Contacts",
-    url: "/contacts",
-  },
-  { label: "Events", url: "/events" },
-  { label: "Templates", url: "/templates" },
-];
-const settings = ["Profile", "Password", "Logout"];
-
-export default function AppMenu() {
+const AppMenu = () => {
+  const { i18n, t } = useTranslation("main");
   const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -33,6 +27,28 @@ export default function AppMenu() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const pages = [
+    {
+      label: t("menu.contacts"),
+      url: "/contacts",
+    },
+    { label: t("menu.events"), url: "/events" },
+    { label: t("menu.templates"), url: "/templates" },
+  ];
+  const settings = [t("menu.profile"), t("menu.password"), t("menu.logout")];
+  /*useEffect(() => {
+    console.log("tabñe");
+
+    const lang = window.navigator.language.split("-");
+    //let locale;
+    console.log(lang);
+    if (lang.length > 0) {
+      console.log("_app 2");
+      i18n.changeLanguage("es");
+    }
+    console.log("_app");
+  }, []);*/
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -196,4 +212,6 @@ export default function AppMenu() {
       </Container>
     </AppBar>
   );
-}
+};
+
+export default AppMenu;

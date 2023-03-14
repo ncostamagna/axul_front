@@ -23,7 +23,7 @@ import { withAuthSync } from "@/common/auth/auth";
 import { getAllContacts } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
 import { useRouter } from "next/router";
-
+import { commonGetStaticProps } from "common/pages/CommonPage";
 import useContact from "../hooks/useContact";
 
 const columns = [
@@ -33,7 +33,11 @@ const columns = [
 ];
 
 const Contact = () => {
-  const [month, setMonth] = React.useState("");
+  const [filters, setFilters] = React.useState({
+    firstname: "",
+    lastname: "",
+    month: "",
+  });
   const router = useRouter();
   const contStore = useContact((state) => state.contacts);
   let values: string[][] = [];
@@ -61,9 +65,9 @@ const Contact = () => {
   const setSelected = useContact((state) => state.setSelected);
   const clearContacts = useContact((state) => state.clearContacts);
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChangeMonth = (event: SelectChangeEvent) => {
     window.localStorage.setItem("test", "1234");
-    setMonth(event.target.value);
+    setFilters({ ...filters, month: event.target.value });
   };
 
   const handleSearch = async () => {
@@ -71,9 +75,9 @@ const Contact = () => {
       const users = await getAllContacts(
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
         "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
-        "",
-        "",
-        ""
+        filters.firstname,
+        filters.lastname,
+        filters.month
       );
 
       return users;
@@ -152,6 +156,10 @@ const Contact = () => {
               label="First name"
               variant="outlined"
               fullWidth
+              value={filters.firstname}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setFilters({ ...filters, firstname: event.target.value });
+              }}
             />
           </Grid>
 
@@ -161,6 +169,10 @@ const Contact = () => {
               label="Last name"
               variant="outlined"
               fullWidth
+              value={filters.lastname}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setFilters({ ...filters, lastname: event.target.value });
+              }}
             />
           </Grid>
 
@@ -170,9 +182,9 @@ const Contact = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={month}
+                value={filters.month}
                 label="Month"
-                onChange={handleChange}
+                onChange={handleChangeMonth}
               >
                 <MenuItem value={""}>None</MenuItem>
                 <MenuItem value={"10"}>Ten</MenuItem>
@@ -226,5 +238,7 @@ const Contact = () => {
     </>
   );
 };
+
+export const getStaticProps = commonGetStaticProps;
 
 export default withAuthSync(Contact);

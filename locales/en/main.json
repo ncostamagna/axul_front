@@ -8,5 +8,13 @@
     "tomorrow": "Tomorrow",
     "overmorrow": "Overmorrow",
     "afterOvermorrow": "After Overmorrow"
+  },
+  "menu": {
+    "contacts": "Contacts",
+    "events": "Events",
+    "templates": "Templates",
+    "profile": "Profile",
+    "password": "Password",
+    "logout": "Logout"
   }
 }

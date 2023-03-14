@@ -7,8 +7,13 @@ import { getDate } from "@/common/format/date";
 import style from "../styles/Home.module.css";
 import { useTranslation } from "next-i18next";
 import { commonGetStaticProps } from "common/pages/CommonPage";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 const Home = () => {
+  const { locale, locales, defaultLocale } = useRouter();
+  console.log(locale, locales, defaultLocale);
+
   const { t } = useTranslation("main");
   const dates = [
     { label: t("dates.today"), days: 0 },
@@ -26,6 +31,12 @@ const Home = () => {
     ])
   );
   useEffect(() => {
+    Swal.fire({
+      title: "Error!",
+      text: "Do you want to continue",
+      icon: "error",
+      confirmButtonText: "Cool",
+    });
     const fetchData = async () => {
       let userMap = new Map<number, Contact[]>([
         [0, []],
@@ -50,7 +61,6 @@ const Home = () => {
     fetchData().catch(console.error);
   }, []);
 
-  console.log(t);
   return (
     <>
       <AppMenu></AppMenu>

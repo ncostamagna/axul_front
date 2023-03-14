@@ -15,7 +15,13 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { DAYS, MONTHS, YEARS } from "@/model/contants";
 import useContact from "../../hooks/useContact";
 import { Date, dateToObject, ObjectToDate } from "@/common/format/date";
-export default function Contact() {
+import { withAuthSync } from "@/common/auth/auth";
+import {
+  commonGetStaticProps,
+  commonGetStaticPaths,
+} from "common/pages/CommonPage";
+
+const ContactByID = () => {
   const router = useRouter();
 
   const contStore = useContact((state) => state.contacts);
@@ -214,7 +220,13 @@ export default function Contact() {
       </Container>
     </>
   );
-}
+};
+
+export const getStaticProps = commonGetStaticProps;
+
+export const getStaticPaths = commonGetStaticPaths;
+
+export default withAuthSync(ContactByID);
 
 /*
 <TextField

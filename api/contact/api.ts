@@ -55,8 +55,22 @@ export const getAllContacts = async (
     },
   };
 
+  let filter = "";
+
+  if (firstName != "") {
+    filter = `${filter}&firstname=${firstName}`;
+  }
+
+  if (lastName != "") {
+    filter = `${filter}&lastname=${lastName}`;
+  }
+
+  if (month != "") {
+    filter = `${filter}&month=${month}`;
+  }
+
   const response = await axios.get<GetContactsResponse>(
-    `${BACK_URL}/contacts?userid=${userID}&limit=1000`,
+    `${BACK_URL}/contacts?userid=${userID}&limit=1000${filter}`,
     options
   );
 
