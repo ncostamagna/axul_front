@@ -8,7 +8,7 @@ import style from "../styles/Home.module.css";
 import { useTranslation } from "next-i18next";
 import { commonGetStaticProps } from "common/pages/CommonPage";
 import { useRouter } from "next/router";
-
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 const Home = () => {
   const { locale, locales, defaultLocale } = useRouter();
   console.log(locale, locales, defaultLocale);
@@ -29,6 +29,17 @@ const Home = () => {
       [3, []],
     ])
   );
+
+  const getGridSize = (day: number): number => {
+    if (day == 0) {
+      return 10;
+    }
+    return 12;
+  };
+
+  const sendMessage = (name: string, phone: string): string => {
+    return `whatsapp://send?text=${name}%20muuuy%20feliz%20cumple!!%0AEspero%20que%20lo%20disfrutes%20al%20maximo%20en%20tu%20dia!!%0ATe%20deseo%20lo%20mejor%20para%20este%20nuevo%20año!!%0AMuchos%20exitooos!!%20:)&phone=${phone}`;
+  };
   useEffect(() => {
     const fetchData = async () => {
       let userMap = new Map<number, Contact[]>([
@@ -83,28 +94,40 @@ const Home = () => {
                 {users.get(date.days)?.map((user) => (
                   <Grid
                     item
-                    key={user.id}
+                    key={`2-${user.id}`}
                     xs={12}
                     className={style.personBirtday}
                   >
-                    <Typography
-                      variant="subtitle1"
-                      component="p"
-                      sx={{
-                        fontFamily: "ubuntu",
-                      }}
-                    >
-                      {`${user.firstname} ${user.lastname}`}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                      sx={{
-                        fontFamily: "ubuntu",
-                      }}
-                    >
-                      {getDate(user.birthday)}
-                    </Typography>
+                    <Grid container className={style.contentBirthday}>
+                      {date.days == 0 && (
+                        <Grid item xs={2} className={style.contentWhatsapp}>
+                          <a href={sendMessage(user.nickname, user.phone)}>
+                            <WhatsAppIcon />
+                          </a>
+                        </Grid>
+                      )}
+
+                      <Grid item xs={getGridSize(date.days)}>
+                        <Typography
+                          variant="subtitle1"
+                          component="p"
+                          sx={{
+                            fontFamily: "ubuntu",
+                          }}
+                        >
+                          {`${user.firstname} ${user.lastname}`}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          component="p"
+                          sx={{
+                            fontFamily: "ubuntu",
+                          }}
+                        >
+                          {getDate(user.birthday)}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 ))}
               </Grid>

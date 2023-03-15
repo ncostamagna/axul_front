@@ -17,3 +17,17 @@
   padding-bottom: 5px;
   padding-top: 5px;
 }
+
+.contentBirthday {
+  display: -webkit-box;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+}
+
+.contentWhatsapp {
+  text-align: center;
+}
+
+.contentBirthday a {
+  color: green;
+}
