@@ -15,3 +15,11 @@ body {
 .u-font {
   font: "ubuntu";
 }
+
+.language-menu svg {
+  color: white;
+}
+
+.language-menu fieldset {
+  border-color: rgba(255, 255, 255, 1);
+}

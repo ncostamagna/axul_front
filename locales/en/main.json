@@ -16,5 +16,17 @@
     "profile": "Profile",
     "password": "Password",
     "logout": "Logout"
+  },
+  "validation": {
+    "error": {
+      "label": "Has been an error",
+      "button": "OK"
+    },
+    "contact": {
+      "firstname": "First name is required",
+      "lastname": "Last name is required",
+      "nickname": "Nick name is required",
+      "birthday": "Birthday is required"
+    }
   }
 }

@@ -20,10 +20,12 @@ import {
   commonGetStaticProps,
   commonGetStaticPaths,
 } from "common/pages/CommonPage";
+import { Error } from "@/common/alert/alert";
+import { useTranslation } from "next-i18next";
 
 const ContactByID = () => {
   const router = useRouter();
-
+  const { t } = useTranslation("main");
   const contStore = useContact((state) => state.contacts);
   const setContStore = useContact((state) => state.setContacts);
   const selected = useContact((state) => state.selected);
@@ -53,6 +55,26 @@ const ContactByID = () => {
     console.log(id);
   }, []);
   const handleSave = async () => {
+    if (contact.firstname == "") {
+      Error(t, "validation.contact.firstname");
+      return;
+    }
+
+    if (contact.lastname == "") {
+      Error(t, "validation.contact.lastname");
+      return;
+    }
+
+    if (contact.nickname == "") {
+      Error(t, "validation.contact.nickname");
+      return;
+    }
+
+    if (birthday.year == "" || birthday.month == "" || birthday.day == "") {
+      Error(t, "validation.contact.birthday");
+      return;
+    }
+
     contact.birthday = ObjectToDate(birthday);
     contact.phone = contact.phone.replace(/[ +-,.]/g, "");
     if (contact.id == "") {
