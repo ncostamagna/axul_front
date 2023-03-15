@@ -12,21 +12,26 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+
+import { FormControl, InputLabel } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useState, useEffect } from "react";
 import { commonGetStaticProps } from "common/pages/CommonPage";
 
 const AppMenu = () => {
-  const { i18n, t } = useTranslation("main");
+  const { t } = useTranslation("main");
   const router = useRouter();
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const [language, setLanguage] = React.useState<string>(router.locale || "en");
 
   const pages = [
     {
@@ -37,6 +42,7 @@ const AppMenu = () => {
     { label: t("menu.templates"), url: "/templates" },
   ];
   const settings = [t("menu.profile"), t("menu.password"), t("menu.logout")];
+
   /*useEffect(() => {
     console.log("tabñe");
 
@@ -44,11 +50,22 @@ const AppMenu = () => {
     //let locale;
     console.log(lang);
     if (lang.length > 0) {
-      console.log("_app 2");
-      i18n.changeLanguage("es");
+      setLanguage(lang[0]);
+      router.push(router.route, router.asPath, {
+        locale: lang[0],
+      });
     }
     console.log("_app");
   }, []);*/
+
+  const handleLocaleChange = (event: any) => {
+    const value = event.target.value;
+
+    setLanguage(value);
+    router.push(router.route, router.asPath, {
+      locale: value,
+    });
+  };
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -137,14 +154,14 @@ const AppMenu = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1, ml: 4 }} />
           <Typography
+            className="pointer"
             variant="h5"
             noWrap
             component="a"
-            href=""
+            onClick={(e) => handlerClick(e, "/home")}
             sx={{
-              mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontFamily: "ubuntu",
@@ -172,7 +189,18 @@ const AppMenu = () => {
               </Button>
             ))}
           </Box>
-
+          <Box sx={{ flexGrow: 0, mr: 1 }}>
+            <FormControl fullWidth className="language-menu">
+              <Select
+                value={language}
+                onChange={handleLocaleChange}
+                variant="outlined"
+              >
+                <MenuItem value="es">🇪🇦</MenuItem>
+                <MenuItem value="en">🏴󠁧󠁢󠁥󠁮󠁧󠁿</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
