@@ -101,3 +101,29 @@ export const createContact = async (
 
   return response.data.data;
 };
+
+export const updateContact = async (
+  token: string,
+  userID: string,
+  contact: Contact
+): Promise<Contact> => {
+  const options = {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      Authorization: token,
+    },
+  };
+
+  let c = contact;
+  const id = c.id;
+  delete c.id;
+
+  const response = await axios.patch<any>(
+    `${BACK_URL}/contacts/${id}?userid=${userID}`,
+    contact,
+    options
+  );
+
+  return response.data.data;
+};

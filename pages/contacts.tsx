@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import AppMenu from "@/components/Menu/menu";
 import {
@@ -25,6 +25,8 @@ import { getDate } from "@/common/format/date";
 import { useRouter } from "next/router";
 import { commonGetStaticProps } from "common/pages/CommonPage";
 import useContact from "../hooks/useContact";
+import useSpinner from "../hooks/useSpinner";
+import { withSpinnerSync } from "@/common/spinner/spinner";
 
 const columns = [
   { value: "Name", size: { xs: 5 } },
@@ -33,16 +35,22 @@ const columns = [
 ];
 
 const Contact = () => {
-  const [filters, setFilters] = React.useState({
+  const [filters, setFilters] = useState({
     firstname: "",
     lastname: "",
     month: "",
   });
   const router = useRouter();
+  const spinnerState = useSpinner((state) => state.spinner);
+  const enableSpinner = useSpinner((state) => state.enableSpinner);
+  const disableSpinner = useSpinner((state) => state.disableSpinner);
   const contStore = useContact((state) => state.contacts);
   let values: string[][] = [];
   let id: string[] = [];
   for (const c of contStore) {
+    if (c == null) {
+      continue;
+    }
     values.push([
       `${c.firstname} ${c.lastname}`,
       getDate(c.birthday),
@@ -53,7 +61,7 @@ const Contact = () => {
     }
   }
 
-  const [contacts, setContacts] = React.useState<{
+  const [contacts, setContacts] = useState<{
     values: string[][];
     id: string[];
   }>({
@@ -71,6 +79,7 @@ const Contact = () => {
   };
 
   const handleSearch = async () => {
+    enableSpinner();
     const fetchData = async () => {
       const users = await getAllContacts(
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
@@ -105,15 +114,19 @@ const Contact = () => {
         });
       })
       .catch(console.error)
-      .finally(() => {});
+      .finally(() => {
+        disableSpinner();
+      });
   };
 
   const handleContactEdit = (id: string) => {
+    enableSpinner();
     setSelected(id);
     router.push(`/contacts/${id}`);
   };
 
   const handleContactNew = () => {
+    enableSpinner();
     router.push(`/contacts/new`);
   };
 
@@ -139,7 +152,12 @@ const Contact = () => {
     },
   ];
 
-  return (
+  useEffect(() => {
+    disableSpinner();
+  }, []);
+
+  return withSpinnerSync(
+    spinnerState,
     <>
       <Head>
         <title>Contacts</title>

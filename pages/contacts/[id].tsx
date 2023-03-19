@@ -1,6 +1,10 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import { Contact as ContactEntity, createContact } from "@/api/contact/api";
+import {
+  Contact as ContactEntity,
+  createContact,
+  updateContact,
+} from "@/api/contact/api";
 import AppMenu from "@/components/Menu/menu";
 import {
   Grid,
@@ -22,6 +26,8 @@ import {
 } from "common/pages/CommonPage";
 import { Error } from "@/common/alert/alert";
 import { useTranslation } from "next-i18next";
+import useSpinner from "@/hooks/useSpinner";
+import { withSpinnerSync } from "@/common/spinner/spinner";
 
 const ContactByID = () => {
   const router = useRouter();
@@ -30,6 +36,10 @@ const ContactByID = () => {
   const setContStore = useContact((state) => state.setContacts);
   const selected = useContact((state) => state.selected);
   const setSelected = useContact((state) => state.setSelected);
+
+  const spinnerState = useSpinner((state) => state.spinner);
+  const enableSpinner = useSpinner((state) => state.enableSpinner);
+  const disableSpinner = useSpinner((state) => state.disableSpinner);
 
   const [contact, setContact] = React.useState<ContactEntity>(
     selected == null
@@ -52,8 +62,9 @@ const ContactByID = () => {
   const id = router.query.id;
 
   React.useEffect(() => {
-    console.log(id);
+    disableSpinner();
   }, []);
+
   const handleSave = async () => {
     if (contact.firstname == "") {
       Error(t, "validation.contact.firstname");
@@ -76,10 +87,12 @@ const ContactByID = () => {
     }
 
     contact.birthday = ObjectToDate(birthday);
-    contact.phone = contact.phone.replace(/[ +-,.]/g, "");
+    contact.phone = contact.phone.replace(/[ +\-,.]/g, "");
+    let fetchData;
+    enableSpinner();
     if (contact.id == "") {
       console.log("new");
-      const fetchData = async () => {
+      fetchData = async () => {
         const cont = await createContact(
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
           "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
@@ -96,9 +109,44 @@ const ContactByID = () => {
           c.push(data);
           setContStore(c);
           setSelected(null);
+
           router.push(`/contacts`);
         })
-        .catch(console.error)
+        .catch(() => {
+          disableSpinner();
+        })
+        .finally(() => {});
+    } else {
+      const id = contact.id;
+      console.log("update");
+      fetchData = async () => {
+        const cont = await updateContact(
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
+          "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+          contact
+        );
+
+        return cont;
+      };
+      //disableSpinner();
+      fetchData()
+        .then((data) => {
+          if (selected != null) {
+            let c = contStore;
+            console.log(contact);
+            console.log(selected);
+            console.log(c[selected]);
+            contact.id = id;
+            c[selected] = contact;
+            setContStore(c);
+            setSelected(null);
+          }
+
+          router.push(`/contacts`);
+        })
+        .catch(() => {
+          disableSpinner();
+        })
         .finally(() => {});
     }
 
@@ -110,7 +158,8 @@ const ContactByID = () => {
     router.push(`/contacts`);
   };
 
-  return (
+  return withSpinnerSync(
+    spinnerState,
     <>
       <AppMenu></AppMenu>
       <Container>
