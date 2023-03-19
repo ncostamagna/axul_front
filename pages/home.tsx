@@ -9,6 +9,10 @@ import { useTranslation } from "next-i18next";
 import { commonGetStaticProps } from "common/pages/CommonPage";
 import { useRouter } from "next/router";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import useSpinner from "../hooks/useSpinner";
+import { withAuthSync } from "@/common/auth/auth";
+import { withSpinnerSync } from "@/common/spinner/spinner";
+
 const Home = () => {
   const { locale, locales, defaultLocale } = useRouter();
   console.log(locale, locales, defaultLocale);
@@ -20,6 +24,10 @@ const Home = () => {
     { label: t("dates.overmorrow"), days: 2 },
     { label: t("dates.afterOvermorrow"), days: 3 },
   ];
+
+  const spinnerState = useSpinner((state) => state.spinner);
+  const enableSpinner = useSpinner((state) => state.enableSpinner);
+  const disableSpinner = useSpinner((state) => state.disableSpinner);
 
   const [users, setUsers] = useState(
     new Map<number, Contact[]>([
@@ -41,6 +49,7 @@ const Home = () => {
     return `whatsapp://send?text=${name}%20muuuy%20feliz%20cumple!!%0AEspero%20que%20lo%20disfrutes%20al%20maximo%20en%20tu%20dia!!%0ATe%20deseo%20lo%20mejor%20para%20este%20nuevo%20año!!%0AMuchos%20exitooos!!%20:)&phone=${phone}`;
   };
   useEffect(() => {
+    enableSpinner();
     const fetchData = async () => {
       let userMap = new Map<number, Contact[]>([
         [0, []],
@@ -60,14 +69,16 @@ const Home = () => {
       }
       console.log(userMap);
       setUsers(userMap);
+      disableSpinner();
     };
 
     fetchData().catch(console.error);
   }, []);
 
-  return (
+  return withSpinnerSync(
+    spinnerState,
     <>
-      <AppMenu></AppMenu>
+      <AppMenu enableSpinner={enableSpinner}></AppMenu>
       <Container>
         <Grid container spacing={3}>
           {dates.map((date) => (
@@ -141,4 +152,4 @@ const Home = () => {
 
 export const getStaticProps = commonGetStaticProps;
 
-export default Home;
+export default withAuthSync(Home);
