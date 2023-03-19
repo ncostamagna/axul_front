@@ -12,7 +12,7 @@ export const getDate = (date: string): string => {
 
 export const dateToObject = (date: string): Date => {
   if (date == "") {
-    return { day: "", month: "", year: "" };
+    return { day: "", month: "", year: "1900" };
   }
   const d = date.split("T")[0].split("-");
   return { year: d[0], month: d[1], day: d[2] };
