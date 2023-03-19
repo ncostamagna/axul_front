@@ -165,7 +165,7 @@ const Contact = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppMenu></AppMenu>
+      <AppMenu enableSpinner={enableSpinner}></AppMenu>
       <Container>
         <Grid container spacing={2} marginTop={5}>
           <Grid item xs={12} md={6}>

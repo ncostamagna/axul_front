@@ -154,6 +154,7 @@ const ContactByID = () => {
   };
 
   const handleBack = async () => {
+    enableSpinner();
     setSelected(null);
     router.push(`/contacts`);
   };
@@ -161,7 +162,7 @@ const ContactByID = () => {
   return withSpinnerSync(
     spinnerState,
     <>
-      <AppMenu></AppMenu>
+      <AppMenu enableSpinner={enableSpinner}></AppMenu>
       <Container>
         <Grid container spacing={2} marginTop={5}>
           <Grid item xs={12} md={6}>

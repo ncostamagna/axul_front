@@ -13,15 +13,17 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-import { FormControl, InputLabel } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FormControl } from "@mui/material";
+import Select from "@mui/material/Select";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { useState, useEffect } from "react";
-import { commonGetStaticProps } from "common/pages/CommonPage";
 
-const AppMenu = () => {
+type Props = {
+  enableSpinner?: Function;
+};
+
+const AppMenu = (props: Props) => {
   const { t } = useTranslation("main");
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -42,21 +44,6 @@ const AppMenu = () => {
     { label: t("menu.templates"), url: "/templates" },
   ];
   const settings = [t("menu.profile"), t("menu.password"), t("menu.logout")];
-
-  /*useEffect(() => {
-    console.log("tabñe");
-
-    const lang = window.navigator.language.split("-");
-    //let locale;
-    console.log(lang);
-    if (lang.length > 0) {
-      setLanguage(lang[0]);
-      router.push(router.route, router.asPath, {
-        locale: lang[0],
-      });
-    }
-    console.log("_app");
-  }, []);*/
 
   const handleLocaleChange = (event: any) => {
     const value = event.target.value;
@@ -79,7 +66,10 @@ const AppMenu = () => {
   };
 
   const handlerClick = (event: any, url: string) => {
-    console.log(url);
+    if (props.enableSpinner != undefined) {
+      props.enableSpinner();
+    }
+
     router.push(url);
     setAnchorElNav(null);
   };
