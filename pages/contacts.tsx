@@ -10,7 +10,7 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-
+import { ConfirmDialog } from "@/common/alert/alert";
 import { Edit } from "@mui/icons-material";
 import Table from "@/components/DataGrid/Table";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,13 +20,14 @@ import Backspace from "@mui/icons-material/Backspace";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
-import { getAllContacts } from "@/api/contact/api";
+import { getAllContacts, deleteContact } from "@/api/contact/api";
 import { getDate } from "@/common/format/date";
 import { useRouter } from "next/router";
 import { commonGetStaticProps } from "common/pages/CommonPage";
 import useContact from "../hooks/useContact";
 import useSpinner from "../hooks/useSpinner";
 import { withSpinnerSync } from "@/common/spinner/spinner";
+import { useTranslation } from "next-i18next";
 
 const columns = [
   { value: "Name", size: { xs: 5 } },
@@ -61,6 +62,7 @@ const Contact = () => {
     }
   }
 
+  const { t } = useTranslation("main");
   const [contacts, setContacts] = useState<{
     values: string[][];
     id: string[];
@@ -69,6 +71,7 @@ const Contact = () => {
     id: id,
   });
 
+  const contactState = useContact((state) => state.contacts);
   const setContStore = useContact((state) => state.setContacts);
   const setSelected = useContact((state) => state.setSelected);
   const clearContacts = useContact((state) => state.clearContacts);
@@ -125,6 +128,63 @@ const Contact = () => {
     router.push(`/contacts/${id}`);
   };
 
+  const handleContactDelete = async (id: string) => {
+    let contactName;
+    for (const v of contactState) {
+      if (v.id === id) {
+        contactName = `${v.firstname} ${v.lastname}?`;
+      }
+    }
+
+    const r = await ConfirmDialog(t, `delete.confirm.message`, contactName);
+
+    if (r) {
+      enableSpinner();
+
+      console.log("delete");
+      const fetchData = async () => {
+        const cont = await deleteContact(
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
+          "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+          id
+        );
+
+        return cont;
+      };
+      fetchData()
+        .then((data) => {
+          console.log(id);
+          const c = contactState.filter((x) => x.id !== id);
+          setContStore(c);
+
+          let values: string[][] = [];
+          let ids: string[] = [];
+          for (const con of c) {
+            values.push([
+              `${con.firstname} ${con.lastname}`,
+              getDate(con.birthday),
+              `${con.days}`,
+            ]);
+            if (con.id != undefined) {
+              ids.push(con.id);
+            }
+          }
+
+          setContacts({
+            values,
+            id: ids,
+          });
+        })
+        .catch(() => {})
+        .finally(() => {
+          disableSpinner();
+        });
+    }
+    //enableSpinner();
+    //setSelected(id);
+    //router.push(`/contacts/${id}`);
+  };
+
   const handleContactNew = () => {
     enableSpinner();
     router.push(`/contacts/new`);
@@ -148,7 +208,7 @@ const Contact = () => {
       size: { xs: 1 },
       color: "error",
       icon: DeleteIcon,
-      fun: handleContactEdit,
+      fun: handleContactDelete,
     },
   ];
 

@@ -28,5 +28,11 @@
       "nickname": "El apodo es requerido",
       "birthday": "El cumpleaños es requerido"
     }
+  },
+  "delete": {
+    "confirm": {
+      "message": "Quieres eliminar a",
+      "button": "Eliminar"
+    }
   }
 }

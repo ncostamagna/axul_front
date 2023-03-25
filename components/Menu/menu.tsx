@@ -66,7 +66,7 @@ const AppMenu = (props: Props) => {
   };
 
   const handlerClick = (event: any, url: string) => {
-    if (props.enableSpinner != undefined) {
+    if (props.enableSpinner != undefined && router.pathname != url) {
       props.enableSpinner();
     }
 

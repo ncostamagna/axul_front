@@ -127,3 +127,24 @@ export const updateContact = async (
 
   return response.data.data;
 };
+
+export const deleteContact = async (
+  token: string,
+  userID: string,
+  id: string
+): Promise<Contact> => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      Authorization: token,
+    },
+  };
+
+  const response = await axios.delete<any>(
+    `${BACK_URL}/contacts/${id}?userid=${userID}`,
+    options
+  );
+
+  return response.data.data;
+};
