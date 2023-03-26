@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <link rel="shortcut icon" href="/favicon.png" />
         <link
           rel="preload"
           href="/fonts/Ubuntu-Bold.ttf"
