@@ -38,15 +38,13 @@ const Login = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const user = data.get("user");
-    if (user == null || user == "") {
-      Error(t, "error");
-      return;
-    }
     const password = data.get("password");
-    if (password == null || password == "") {
-      Error(t, "error");
+
+    if (user == null || user == "" || password == null || password == "") {
+      Error(t, "login.validation.required");
       return;
     }
+
     const fetchData = async () => {
       const cont = await userLogin(user.toString(), password.toString());
 
@@ -63,7 +61,7 @@ const Login = () => {
         }
       })
       .catch(() => {
-        Error(t, "error");
+        Error(t, "login.validation.auth");
         window.localStorage.removeItem("axul_user_id");
         window.localStorage.removeItem("axul_token");
         disableSpinner();

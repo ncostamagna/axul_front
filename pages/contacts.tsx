@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Search from "@mui/icons-material/Search";
 import Add from "@mui/icons-material/Add";
 import Backspace from "@mui/icons-material/Backspace";
-
+import { MONTHS } from "@/model/contants";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
 import { getAllContacts, deleteContact } from "@/api/apiContact";
@@ -77,7 +77,6 @@ const Contact = () => {
   const clearContacts = useContact((state) => state.clearContacts);
 
   const handleChangeMonth = (event: SelectChangeEvent) => {
-    window.localStorage.setItem("test", "1234");
     setFilters({ ...filters, month: event.target.value });
   };
 
@@ -271,10 +270,11 @@ const Contact = () => {
                 label="Month"
                 onChange={handleChangeMonth}
               >
-                <MenuItem value={""}>None</MenuItem>
-                <MenuItem value={"10"}>Ten</MenuItem>
-                <MenuItem value={"20"}>Twenty</MenuItem>
-                <MenuItem value={"30"}>Thirty</MenuItem>
+                {MONTHS.map((item, i) => (
+                  <MenuItem key={`2-${i}`} value={item.key}>
+                    {item.value}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

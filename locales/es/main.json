@@ -34,5 +34,11 @@
       "message": "Quieres eliminar a",
       "button": "Eliminar"
     }
+  },
+  "login": {
+    "validation": {
+      "required": "usuario y contraseña con reueridos",
+      "auth": "Usuario o contraseña invalida"
+    }
   }
 }

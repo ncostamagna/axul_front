@@ -71,8 +71,13 @@ const AppMenu = (props: Props) => {
     setAnchorElNav(null);
   };
 
+  const handleProfile = (): void => {
+    router.push("/profile");
+    setAnchorElNav(null);
+  };
+
   const settings = [
-    { label: t("menu.profile"), click: handleCloseNavMenu },
+    { label: t("menu.profile"), click: handleProfile },
     { label: t("menu.password"), click: handleCloseNavMenu },
     { label: t("menu.logout"), click: handleLogout },
   ];
@@ -206,7 +211,7 @@ const AppMenu = (props: Props) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar src="/favicon.png" />
               </IconButton>
             </Tooltip>
             <Menu

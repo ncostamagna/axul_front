@@ -1,5 +1,4 @@
 import { Grid, Container, Typography } from "@mui/material";
-import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
 import { useState, useEffect } from "react";
 import { getNextBirthday, Contact } from "@/api/apiContact";
