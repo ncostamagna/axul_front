@@ -1,8 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Contact } from "@/api/contact/api";
-import { getDate } from "@/common/format/date";
+import { Contact } from "@/api/apiContact";
 
 type useContactsType = {
   selected: number | null;

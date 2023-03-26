@@ -21,8 +21,8 @@ type StoreContactsResponse = {
 
 export const getNextBirthday = async (
   days = 4,
-  token: string,
-  userID: string
+  token: string | null,
+  userID: string | null
 ): Promise<Contact[]> => {
   const options = {
     method: "GET",
@@ -41,8 +41,8 @@ export const getNextBirthday = async (
 };
 
 export const getAllContacts = async (
-  token: string,
-  userID: string,
+  token: string | null,
+  userID: string | null,
   firstName: string,
   lastName: string,
   month: string
@@ -78,8 +78,8 @@ export const getAllContacts = async (
 };
 
 export const createContact = async (
-  token: string,
-  userID: string,
+  token: string | null,
+  userID: string | null,
   contact: Contact
 ): Promise<Contact> => {
   const options = {
@@ -103,8 +103,8 @@ export const createContact = async (
 };
 
 export const updateContact = async (
-  token: string,
-  userID: string,
+  token: string | null,
+  userID: string | null,
   contact: Contact
 ): Promise<Contact> => {
   const options = {
@@ -129,8 +129,8 @@ export const updateContact = async (
 };
 
 export const deleteContact = async (
-  token: string,
-  userID: string,
+  token: string | null,
+  userID: string | null,
   id: string
 ): Promise<Contact> => {
   const options = {

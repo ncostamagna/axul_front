@@ -2,7 +2,7 @@ import { Grid, Container, Typography } from "@mui/material";
 import { Inter } from "@next/font/google";
 import AppMenu from "@/components/Menu/menu";
 import { useState, useEffect } from "react";
-import { getNextBirthday, Contact } from "@/api/contact/api";
+import { getNextBirthday, Contact } from "@/api/apiContact";
 import { getDate } from "@/common/format/date";
 import style from "../styles/Home.module.css";
 import { useTranslation } from "next-i18next";

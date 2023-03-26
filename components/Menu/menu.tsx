@@ -43,7 +43,6 @@ const AppMenu = (props: Props) => {
     { label: t("menu.events"), url: "/events" },
     { label: t("menu.templates"), url: "/templates" },
   ];
-  const settings = [t("menu.profile"), t("menu.password"), t("menu.logout")];
 
   const handleLocaleChange = (event: any) => {
     const value = event.target.value;
@@ -61,9 +60,22 @@ const AppMenu = (props: Props) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (): void => {
     setAnchorElNav(null);
   };
+
+  const handleLogout = (): void => {
+    window.localStorage.removeItem("axul_user_id");
+    window.localStorage.removeItem("axul_token");
+    router.push("/login");
+    setAnchorElNav(null);
+  };
+
+  const settings = [
+    { label: t("menu.profile"), click: handleCloseNavMenu },
+    { label: t("menu.password"), click: handleCloseNavMenu },
+    { label: t("menu.logout"), click: handleLogout },
+  ];
 
   const handlerClick = (event: any, url: string) => {
     if (props.enableSpinner != undefined && router.pathname != url) {
@@ -215,13 +227,13 @@ const AppMenu = (props: Props) => {
             >
               {settings.map((setting) => (
                 <MenuItem
-                  key={setting}
-                  onClick={handleCloseUserMenu}
+                  key={setting.label}
+                  onClick={setting.click}
                   sx={{
                     fontFamily: "ubuntu",
                   }}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center">{setting.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>

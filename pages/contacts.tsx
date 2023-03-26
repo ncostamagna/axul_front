@@ -20,7 +20,7 @@ import Backspace from "@mui/icons-material/Backspace";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { withAuthSync } from "@/common/auth/auth";
-import { getAllContacts, deleteContact } from "@/api/contact/api";
+import { getAllContacts, deleteContact } from "@/api/apiContact";
 import { getDate } from "@/common/format/date";
 import { useRouter } from "next/router";
 import { commonGetStaticProps } from "common/pages/CommonPage";
@@ -85,8 +85,8 @@ const Contact = () => {
     enableSpinner();
     const fetchData = async () => {
       const users = await getAllContacts(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
-        "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+        window.localStorage.getItem("axul_token"),
+        window.localStorage.getItem("axul_user_id"),
         filters.firstname,
         filters.lastname,
         filters.month
@@ -116,7 +116,11 @@ const Contact = () => {
           id,
         });
       })
-      .catch(console.error)
+      .catch(() => {
+        window.localStorage.removeItem("axul_user_id");
+        window.localStorage.removeItem("axul_token");
+        router.push(`/login`);
+      })
       .finally(() => {
         disableSpinner();
       });
@@ -144,8 +148,8 @@ const Contact = () => {
       console.log("delete");
       const fetchData = async () => {
         const cont = await deleteContact(
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
-          "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
+          window.localStorage.getItem("axul_token"),
+          window.localStorage.getItem("axul_user_id"),
           id
         );
 
@@ -153,7 +157,6 @@ const Contact = () => {
       };
       fetchData()
         .then((data) => {
-          console.log(id);
           const c = contactState.filter((x) => x.id !== id);
           setContStore(c);
 
@@ -175,7 +178,11 @@ const Contact = () => {
             id: ids,
           });
         })
-        .catch(() => {})
+        .catch(() => {
+          window.localStorage.removeItem("axul_user_id");
+          window.localStorage.removeItem("axul_token");
+          router.push(`/login`);
+        })
         .finally(() => {
           disableSpinner();
         });

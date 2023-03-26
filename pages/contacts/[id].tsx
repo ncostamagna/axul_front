@@ -4,7 +4,7 @@ import {
   Contact as ContactEntity,
   createContact,
   updateContact,
-} from "@/api/contact/api";
+} from "@/api/apiContact";
 import AppMenu from "@/components/Menu/menu";
 import {
   Grid,
@@ -86,6 +86,9 @@ const ContactByID = () => {
       return;
     }
 
+    const userID = window.localStorage.getItem("axul_user_id");
+    const token = window.localStorage.getItem("axul_token");
+
     contact.birthday = ObjectToDate(birthday);
     contact.phone = contact.phone.replace(/[ +\-,.]/g, "");
     let fetchData;
@@ -93,11 +96,7 @@ const ContactByID = () => {
     if (contact.id == "") {
       console.log("new");
       fetchData = async () => {
-        const cont = await createContact(
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
-          "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
-          contact
-        );
+        const cont = await createContact(token, userID, contact);
 
         return cont;
       };
@@ -120,11 +119,7 @@ const ContactByID = () => {
       const id = contact.id;
       console.log("update");
       fetchData = async () => {
-        const cont = await updateContact(
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZiOWIxMDE0LTA1YmUtNGQ1MS1hNjk1LTU5ZTJjYzVlYjJiZCIsInVzZXJuYW1lIjoibmNvc3RhbWFnbmEifQ.eejlImtdvVqGUrPTG4ZyTB7q65VypqbGKhVyepd10OU",
-          "6b9b1014-05be-4d51-a695-59e2cc5eb2bd",
-          contact
-        );
+        const cont = await updateContact(token, userID, contact);
 
         return cont;
       };
@@ -145,6 +140,8 @@ const ContactByID = () => {
           router.push(`/contacts`);
         })
         .catch(() => {
+          window.localStorage.removeItem("axul_user_id");
+          window.localStorage.removeItem("axul_token");
           disableSpinner();
         })
         .finally(() => {});
