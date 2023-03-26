@@ -57,6 +57,9 @@ const Login = () => {
         if (data.user.id != undefined) {
           window.localStorage.setItem("axul_user_id", data.user.id);
           window.localStorage.setItem("axul_token", data.token);
+          if (router.pathname === "/home") {
+            disableSpinner();
+          }
           router.push(`/home`);
         }
       })
