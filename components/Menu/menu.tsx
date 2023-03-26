@@ -196,18 +196,7 @@ const AppMenu = (props: Props) => {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0, mr: 1 }}>
-            <FormControl fullWidth className="language-menu">
-              <Select
-                value={language}
-                onChange={handleLocaleChange}
-                variant="outlined"
-              >
-                <MenuItem value="es">🇪🇦</MenuItem>
-                <MenuItem value="en">🏴󠁧󠁢󠁥󠁮󠁧󠁿</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+          <Box sx={{ flexGrow: 0, mr: 2 }}></Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

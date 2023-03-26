@@ -78,7 +78,7 @@ const Profile = () => {
       <AppMenu enableSpinner={enableSpinner}></AppMenu>
       <Container>
         <Grid container spacing={2} marginTop={5}>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <TextField
               id="outlined-basic"
               label="Username"
@@ -87,6 +87,21 @@ const Profile = () => {
               value={user.username}
               disabled={true}
             />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="language-selector-label">Language</InputLabel>
+              <Select
+                labelId="language-selector-label"
+                id="language-selector"
+                value="en"
+                label="Language"
+              >
+                <MenuItem value="en"> English </MenuItem>
+                <MenuItem value="es"> Spanish </MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
 
           <Grid item xs={12} md={6}>
