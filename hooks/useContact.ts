@@ -13,39 +13,33 @@ type useContactsType = {
   clearContacts: () => void;
 };
 
-const useContacts = create<useContactsType>()(
-  persist(
-    (set, get) => ({
+// with persist, store in localStoge, save content
+const useContacts = create<useContactsType>()((set, get) => ({
+  selected: null,
+  idSelected: null,
+  contacts: [],
+  setSelected(value: string | null) {
+    set((state) => {
+      if (value == null) {
+        return { ...state, selected: null, idSelected: null };
+      }
+      const index = state.contacts.findIndex((contact) => {
+        return contact.id == value;
+      });
+      return { ...state, selected: index, idSelected: value };
+    });
+  },
+  setContacts(contacts: Contact[]) {
+    set((state) => ({ ...state, contacts }));
+  },
+  clearContacts() {
+    set((state) => ({
       selected: null,
-      idSelected: null,
       contacts: [],
-      setSelected(value: string | null) {
-        set((state) => {
-          if (value == null) {
-            return { ...state, selected: null, idSelected: null };
-          }
-          const index = state.contacts.findIndex((contact) => {
-            return contact.id == value;
-          });
-          return { ...state, selected: index, idSelected: value };
-        });
-      },
-      setContacts(contacts: Contact[]) {
-        set((state) => ({ ...state, contacts }));
-      },
-      clearContacts() {
-        set((state) => ({
-          selected: null,
-          contacts: [],
-          idSelected: null,
-        }));
-      },
-    }),
-    {
-      name: "bear-storage",
-    }
-  )
-);
+      idSelected: null,
+    }));
+  },
+}));
 /*
 = (set, get) => ({
   
