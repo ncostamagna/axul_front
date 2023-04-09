@@ -85,6 +85,9 @@ const Profile = () => {
               variant="outlined"
               fullWidth
               value={user.username}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setUser({ ...user, username: event.target.value });
+              }}
               disabled={true}
             />
           </Grid>
@@ -111,6 +114,9 @@ const Profile = () => {
               variant="outlined"
               fullWidth
               value={user.firstname}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setUser({ ...user, firstname: event.target.value });
+              }}
             />
           </Grid>
 
@@ -121,6 +127,9 @@ const Profile = () => {
               variant="outlined"
               fullWidth
               value={user.lastname}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setUser({ ...user, lastname: event.target.value });
+              }}
             />
           </Grid>
 
@@ -131,6 +140,9 @@ const Profile = () => {
               variant="outlined"
               fullWidth
               value={user.email}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setUser({ ...user, email: event.target.value });
+              }}
             />
           </Grid>
 
@@ -141,6 +153,9 @@ const Profile = () => {
               variant="outlined"
               fullWidth
               value={user.phone}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setUser({ ...user, phone: event.target.value });
+              }}
             />
           </Grid>
 
