@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACK_URL = "https://pe0t1xcxad.execute-api.us-east-1.amazonaws.com/prod";
+const BACK_URL = process.env.CONTACT_HOST_URL;
 
 export type Contact = {
   id?: string;
